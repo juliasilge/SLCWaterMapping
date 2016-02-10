@@ -2,6 +2,7 @@ library(choroplethrUTCensusTract)
 library(ggplot2)
 library(RColorBrewer)
 library(dplyr)
+library(sp)
 library(stringr)
 library(lubridate)
 library(reshape2)
@@ -28,6 +29,11 @@ maptracts$value <- maptracts$Mar
 monthvector <- c("January", "February", "March", "April", "May", "June",
                  "July", "August", "September", "October", "November", "December")
 
+# make data frame for finding census tract ID from long and lat
+data(ut.tract.map)
+tractstest <- select(ut.tract.map, long, lat, id, TRACTCE)
+
+
 shinyServer(function(input, output) {
         output$myPlot <- renderPlot({
                 monthint <- which(monthvector == input$month)
@@ -42,4 +48,20 @@ shinyServer(function(input, output) {
                 else p <- choro$render()
                 p
         })
+        
+        output$tractText <- renderText({
+                if(is.null(input$plot_click) || is.na(input$plot_click)) {
+                        return()
+                }
+                for (i in unique(ut.tract.map$id)) {
+                        itractstest <- filter(tractstest, id == i)
+                        if(point.in.polygon(input$plot_click$x, input$plot_click$y, 
+                                            itractstest$long, itractstest$lat)) {
+                                mytract <- itractstest$TRACTCE[[1]]
+                        }                
+                }
+#                paste0("x=", input$plot_click$x, "\ny=", input$plot_click$y,
+#                       "\nU.S. Census Tract: 49035", mytract, "\n")
+                paste0("U.S. Census Tract 49035", mytract, "\n")
+        })        
 })

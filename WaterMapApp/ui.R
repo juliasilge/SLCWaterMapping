@@ -11,7 +11,11 @@ shinyUI(fluidPage(
                              br(),
                              br(),
                              "Choose which month to display and whether to plot 
-                             the data over a reference map. The data used in 
+                             the data over a reference map. Click on the map
+                             get the ID of that census tract.",
+                             br(),
+                             br(),
+                             "The data used in 
                              these plots are publicly available at ", 
                              a("Utah's Open Data Catalog.", 
                                href = "https://opendata.utah.gov/Energy-Environment/SALT-LAKE-CITY-WATER-CONSUMPTION-BY-TRACT/j4aa-ce7s"),
@@ -25,7 +29,9 @@ shinyUI(fluidPage(
                              checkboxInput('refmap', label = 'Reference map', value = FALSE)
                 ),
                 mainPanel(
-                        plotOutput('myPlot')
+                        plotOutput('myPlot', click = 'plot_click'),
+                        br(),
+                        textOutput("tractText")
                 )
 )
 ))

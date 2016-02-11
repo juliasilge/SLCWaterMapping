@@ -21,7 +21,7 @@ shinyUI(fluidPage(
                                href = "https://opendata.utah.gov/Energy-Environment/SALT-LAKE-CITY-WATER-CONSUMPTION-BY-TRACT/j4aa-ce7s"),
                              "Read more about this analysis at ",
                              a("my blog.",
-                               href = "http://juliasilge.com/blog/"),
+                               href = "http://juliasilge.com/blog/Tall-Drink-of-Water/"),
                              br(),
                              br(),
                              selectInput('month', 'Month', monthvector,
